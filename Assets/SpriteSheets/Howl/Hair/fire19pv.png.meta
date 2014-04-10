@@ -1,0 +1,193 @@
+fileFormatVersion: 2
+guid: 288beb9e91b4e4a078c2b287451a344e
+TextureImporter:
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings:
+  - buildTarget: iPhone
+    maxTextureSize: 1024
+    textureFormat: -2
+    compressionQuality: 50
+  spriteSheet:
+    sprites:
+    - name: fire19pv_0
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 605
+        width: 176
+        height: 138
+      alignment: 9
+      pivot: {x: .459433824, y: .228382051}
+    - name: fire19pv_1
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 602
+        width: 180
+        height: 155
+      alignment: 9
+      pivot: {x: .47025162, y: .223625332}
+    - name: fire19pv_2
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 600
+        width: 183
+        height: 162
+      alignment: 9
+      pivot: {x: .470738977, y: .268621743}
+    - name: fire19pv_3
+      rect:
+        serializedVersion: 2
+        x: 614
+        y: 608
+        width: 183
+        height: 163
+      alignment: 9
+      pivot: {x: .490246385, y: .204338595}
+    - name: fire19pv_4
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 404
+        width: 179
+        height: 155
+      alignment: 9
+      pivot: {x: .470085174, y: .200594202}
+    - name: fire19pv_5
+      rect:
+        serializedVersion: 2
+        x: 218
+        y: 400
+        width: 178
+        height: 168
+      alignment: 9
+      pivot: {x: .500000179, y: .223762512}
+    - name: fire19pv_6
+      rect:
+        serializedVersion: 2
+        x: 425
+        y: 398
+        width: 170
+        height: 163
+      alignment: 9
+      pivot: {x: .5, y: .226239353}
+    - name: fire19pv_7
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 404
+        width: 156
+        height: 167
+      alignment: 9
+      pivot: {x: .5, y: .211420298}
+    - name: fire19pv_8
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 211
+        width: 157
+        height: 162
+      alignment: 9
+      pivot: {x: .443155557, y: .158441424}
+    - name: fire19pv_9
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 208
+        width: 151
+        height: 153
+      alignment: 9
+      pivot: {x: .5, y: .196680412}
+    - name: fire19pv_10
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 207
+        width: 167
+        height: 143
+      alignment: 9
+      pivot: {x: .467935711, y: .212915272}
+    - name: fire19pv_11
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 207
+        width: 167
+        height: 146
+      alignment: 9
+      pivot: {x: .52137655, y: .231039599}
+    - name: fire19pv_12
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 8
+        width: 157
+        height: 139
+      alignment: 9
+      pivot: {x: .50000006, y: .243177101}
+    - name: fire19pv_13
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 10
+        width: 161
+        height: 143
+      alignment: 9
+      pivot: {x: .5, y: .187951222}
+    - name: fire19pv_14
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 11
+        width: 166
+        height: 150
+      alignment: 9
+      pivot: {x: .489247531, y: .190613985}
+    - name: fire19pv_15
+      rect:
+        serializedVersion: 2
+        x: 621
+        y: 10
+        width: 169
+        height: 160
+      alignment: 9
+      pivot: {x: .5, y: .209950566}
+  spritePackingTag: 
+  userData: 
