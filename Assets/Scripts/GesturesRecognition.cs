@@ -54,19 +54,4 @@ public class GesturesRecognition : MonoBehaviour
 			Debug.Log( e.Finger + " stopped moving at " + e.Position );*/
 	}
 
-	void OnFingerHover( FingerHoverEvent e ) 
-	{
-		Debug.Log ("oooi");
-		// check the hover event phase to check if we're entering or exiting the object
-		if( e.Phase == FingerHoverPhase.Enter )
-		{
-			GameController.Instance.CollectLifestream(e.Selection.transform);
-			//Debug.Log( e.Finger + " entered object: " + e.Selection );
-		}
-		/*else if( e.Phase == FingerHoverPhase.Exit )
-		{
-			Debug.Log( e.Finger + " exited object: " + e.Selection );
-		}*/
-	}
-
 }

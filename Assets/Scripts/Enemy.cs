@@ -74,7 +74,6 @@ public class Enemy : MonoBehaviour
 	{
 		gameObject.SetActive (false);
 		SpawnController.enemiesInGame.Remove (myTransform);
-		SpawnController.Instance.SpawnLifestream (myTransform.position);
 
 		GameController.Instance.TrySendNextWave ();
 	}
