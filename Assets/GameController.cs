@@ -15,12 +15,17 @@ public class GameController : MonoBehaviour
 	void Start () 
 	{
 		instance = this;
-		SpawnController.Instance.SpawnEnemies (GetWaveMonstersNumber(wave));
+		SpawnController.Instance.SpawnEnemies (GetWaveMonstersNumber());
 	}
 
-	private byte GetWaveMonstersNumber(byte wave)
+	private byte GetWaveMonstersNumber()
 	{
 		return (byte)Mathf.Min(10, wave + Mathf.Floor(wave * 0.4f));
+	}
+
+	public byte GetCoinDrop()
+	{
+		return (byte)(Mathf.Round ((Random.Range (0f, 1f) * (wave * 3))) + wave);
 	}
 
 	public void TrySendNextWave()
@@ -29,6 +34,11 @@ public class GameController : MonoBehaviour
 		
 		wave++;
 
-		SpawnController.Instance.SpawnEnemies (GetWaveMonstersNumber(wave));
+		SpawnController.Instance.SpawnEnemies (GetWaveMonstersNumber());
+	}
+
+	public void CollectLifestream(Transform lifestream)
+	{
+		lifestream.gameObject.SetActive (false);
 	}
 }
