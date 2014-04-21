@@ -59,6 +59,8 @@ public class Enemy : MonoBehaviour
 	{
 		life -= damage;
 
+		SpawnController.Instance.SpawnDamage (damage, myTransform.position);
+
 		if (life <= 0)
 			Dead ();
 	}

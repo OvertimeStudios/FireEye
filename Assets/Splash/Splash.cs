@@ -8,11 +8,11 @@ public class Splash : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		MovieTexture mTexture = (MovieTexture)renderer.material.mainTexture;
-		mTexture.Play ();
+		//MovieTexture mTexture = renderer.material.mainTexture as MovieTexture;
+		//mTexture.Play ();
 		audio.Play ();
 
-		duration = mTexture.duration;
+		//duration = mTexture.duration;
 
 		StartCoroutine (NextScene(duration));
 	}

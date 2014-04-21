@@ -1,11 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/GameController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Damage.cs">
     <Files>
-      <File FileName="Assets/Scripts/SpawnController.cs" Line="109" Column="58" />
-      <File FileName="Assets/Scripts/Enemy.cs" Line="77" Column="67" />
-      <File FileName="Assets/GameController.cs" Line="40" Column="52" />
-      <File FileName="Assets/Scripts/GesturesRecognition.cs" Line="62" Column="18" />
+      <File FileName="Assets/Scripts/Controllers/GameController.cs" Line="37" Column="43" />
+      <File FileName="Assets/Scripts/Controllers/SpawnController.cs" Line="211" Column="3" />
+      <File FileName="Assets/Scripts/Enemy.cs" Line="79" Column="67" />
+      <File FileName="Assets/Scripts/GesturesRecognition.cs" Line="61" Column="4" />
+      <File FileName="Assets/Scripts/Damage.cs" Line="16" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

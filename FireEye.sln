@@ -7,6 +7,8 @@ Project("{9144C2BB-E912-A2D1-4CA6-48C27C9BD456}") = "FireEye", "Assembly-CSharp.
 EndProject
 Project("{9144C2BB-E912-A2D1-4CA6-48C27C9BD456}") = "FireEye", "Assembly-CSharp-Editor-firstpass.csproj", "{2A08732D-06CB-3983-AE22-B51CB4BF5937}"
 EndProject
+Project("{9144C2BB-E912-A2D1-4CA6-48C27C9BD456}") = "FireEye", "Assembly-CSharp-Editor.csproj", "{356E5D05-6079-A69F-C7F0-FFACD3A82DA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,11 +27,18 @@ Global
 		{2A08732D-06CB-3983-AE22-B51CB4BF5937}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A08732D-06CB-3983-AE22-B51CB4BF5937}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A08732D-06CB-3983-AE22-B51CB4BF5937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{356E5D05-6079-A69F-C7F0-FFACD3A82DA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{356E5D05-6079-A69F-C7F0-FFACD3A82DA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{356E5D05-6079-A69F-C7F0-FFACD3A82DA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{356E5D05-6079-A69F-C7F0-FFACD3A82DA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																					GlobalSection(MonoDevelopProperties) = preSolution
+																																																							GlobalSection(MonoDevelopProperties) = preSolution
+=======
+																													GlobalSection(MonoDevelopProperties) = preSolution
+>>>>>>> FETCH_HEAD
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
