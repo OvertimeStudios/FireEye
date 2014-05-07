@@ -5,7 +5,7 @@ public enum Elements
 {
 	Water,
 	Earth,
-	Electric,
+	Energy,
 	Fire,
 	Neutral,
 	None
@@ -22,9 +22,9 @@ public class Element
 			e = Elements.Water;
 		
 		if (element == Elements.Water)
-			e = Elements.Electric;
+			e = Elements.Energy;
 		
-		if (element == Elements.Electric)
+		if (element == Elements.Energy)
 			e = Elements.Earth;
 		
 		if (element == Elements.Earth)
@@ -35,11 +35,11 @@ public class Element
 	
 	public static float Multiplier(Elements element, Elements elementAgainst)
 	{
-		if (element == elementAgainst) return 0;
-		
 		if (element == WeakAgainst (elementAgainst)) return 1;
-		
-		return 0.5f;
+
+		if(element != elementAgainst) return GameController.Instance.damageDealOnNeutralElements;
+
+		return 0f;
 	}
 
 	public static Elements GetRandomElement()
@@ -53,6 +53,6 @@ public class Element
 		else if(rnd == 2)
 			return Elements.Water;
 		else
-			return Elements.Electric;
+			return Elements.Energy;
 	}
 }

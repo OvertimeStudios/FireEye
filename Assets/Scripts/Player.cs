@@ -4,11 +4,17 @@ using System.Collections;
 public class Player : MonoBehaviour 
 {
 	public float damage;
-	public float attackArea;
 	public float knockbackForce;
 	public float knockbackArea;
 
+	public static float mana;
+
 	private Transform myTransform;
+
+	public Elements element;
+
+	private int minX;
+	private int maxX;
 
 	private static Player instance;
 	public static Player Instance
@@ -20,87 +26,91 @@ public class Player : MonoBehaviour
 	{
 		myTransform = transform;
 		instance = this;
+		element = Elements.Neutral;
+
+		CameraFollow cameraFollow = GameObject.Find ("Main Camera").GetComponent<CameraFollow> ();
+
+		minX = (int)cameraFollow.minXAndY.x - 7;
+		maxX = (int)cameraFollow.maxXAndY.x + 7;
 	}
 
+	void Start()
+	{
+		StartCoroutine (WaitForGameController ());
+	}
+
+	IEnumerator WaitForGameController()
+	{
+		while(GameController.Instance == null) yield return null;
+		
+		mana = GameController.Instance.maxMana;
+	}
+
+	//called at GesturesRecognition.OnCustomGesture()
 	public void UsePower(Elements element)
 	{
 		Debug.Log ("Used: " + element.ToString ());
 
-		Transform closestEnemy = GetClosestEnemy (element);
+		this.element = element;
 
-		if (closestEnemy == null) return;
+		mana -= GetSkillCost(element);
 
-		Enemy enemy = closestEnemy.GetComponent<Enemy> ();
-		int dir = (int)((closestEnemy.position.x - myTransform.position.x) / Mathf.Abs(closestEnemy.position.x - myTransform.position.x));
+		HUD.Instance.ShowSkillTime (element);
+	}
 
-		enemy.TakeDamage (damage * Element.Multiplier(element, enemy.element));
-		enemy.Knockback (knockbackForce, 1);
+	//calles when time is over (at HUD.cs)
+	public void BackToNeutral()
+	{
+		element = Elements.Neutral;
+	}
 
-		float newPosX = closestEnemy.position.x;
+	//called when user tap on screen and on an Enemy (at GesturesRecognition.OnTap)
+	public void Teleport(Vector3 position)
+	{
+		if(element == Elements.Neutral) return;
 
-		//apply knockback and damage on all near enemies
-		for (byte i = 0; i < SpawnController.enemiesInGame.Count; i++) 
+		Vector3 pos = new Vector3(Mathf.Clamp(position.x, minX, maxX), myTransform.position.y);
+
+		//attack near enemies
+		for(int i = SpawnController.enemiesInGame.Count - 1; i >= 0; i--)
 		{
 			Transform e = SpawnController.enemiesInGame[i] as Transform;
+			float dist = Mathf.Abs(pos.x - e.position.x);
 
-			if(e == closestEnemy) continue;
-
-			if(Mathf.Abs(e.position.x - newPosX) < knockbackArea)
+			if(dist < knockbackArea)
 			{
-				enemy = e.GetComponent<Enemy>();
+				int dir = (e.position.x - pos.x == 0) ? (int)((e.position.x - myTransform.position.x) / Mathf.Abs(e.position.x - myTransform.position.x)) : (int)((e.position.x - pos.x) / Mathf.Abs(e.position.x - pos.x));
 
-				dir = (int)((e.position.x - newPosX) / Mathf.Abs(e.position.x - newPosX));
+				Enemy enemy = e.GetComponent<Enemy>();
+				enemy.Knockback(knockbackForce, dir);
 
-				enemy.TakeDamage (damage * Element.Multiplier(element, enemy.element));
-				enemy.Knockback (knockbackForce, dir);
+				Debug.Log(element.ToString() + " against " + enemy.element + " = x" + Element.Multiplier(element, enemy.element));
+
+				enemy.TakeDamage(damage * Element.Multiplier(element, enemy.element));
 			}
 		}
 
-		myTransform.position = new Vector3 (newPosX, myTransform.position.y, myTransform.position.z);
-	}
+		//move player
+		myTransform.position = pos;
 
-	public Transform GetClosestEnemy(Elements element)
-	{
-		Transform closestEnemy = null;
-
-		for(byte i = 0; i < SpawnController.enemiesInGame.Count; i++)
+		for(int i = 0; i < SpawnController.enemiesInGame.Count; i++)
 		{
 			Transform e = SpawnController.enemiesInGame[i] as Transform;
 			Enemy enemy = e.GetComponent<Enemy>();
 
-			if(closestEnemy == null)
-			{
-				closestEnemy = e;
-			}
-			else 
-			{
-				if(element == Element.WeakAgainst(enemy.element))
-				{
-					if(enemy.element == Element.WeakAgainst(element))
-					{
-						if(Mathf.Abs(myTransform.position.x - e.position.x) < Mathf.Abs(myTransform.position.x - closestEnemy.position.x))
-						{
-							closestEnemy = e;
-						}
-					}
-				}
-				else
-				{
-					if(element == Element.WeakAgainst(enemy.element))
-					{
-						closestEnemy = e;
-					}
-					else
-					{
-						if(Mathf.Abs(myTransform.position.x - e.position.x) < Mathf.Abs(myTransform.position.x - closestEnemy.position.x))
-						{
-							closestEnemy = e;
-						}
-					}
-				}
-			}
+			enemy.RecalculateDirection();
 		}
 
-		return closestEnemy;
+		GameController.Instance.TrySendNextWave ();
+	}
+
+	private float GetSkillCost(Elements element)
+	{
+		float cost = 0;
+
+		if(element == Elements.Earth || element == Elements.Water || element == Elements.Fire || element == Elements.Energy)
+			cost = GameController.Instance.lvl1SkillCost;
+
+		return cost;
 	}
 }
