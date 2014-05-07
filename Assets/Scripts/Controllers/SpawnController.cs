@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum Lifestream
+
+public enum Lifestreams
 {
 	Small = 1,
 	Medium = 5,
@@ -20,18 +21,21 @@ public class SpawnController : MonoBehaviour
 	public static ArrayList enemiesInGame;
 	#endregion
 
-
 	#region lifestream
 	public Sprite[] lifestreamSprites;
 	public GameObject lifestreamPrefab;
 	private ArrayList lifestreamsPool;
 	public float lifestreamSpread;
-	public float lifestreamValueMultiplier;
 	#endregion lifestream
 
 	#region damage
 	public GameObject damagePrefab;
 	private ArrayList damagesPool;
+	#endregion
+
+	#region ink stain
+	public GameObject inkStainPrefab;
+	private ArrayList inkStainPool;
 	#endregion
 
 	[HideInInspector]
@@ -49,6 +53,7 @@ public class SpawnController : MonoBehaviour
 		enemiesInGame = new ArrayList ();
 		lifestreamsPool = new ArrayList ();
 		damagesPool = new ArrayList ();
+		inkStainPool = new ArrayList ();
 		instance = this;
 
 		uiRoot = GameObject.Find ("UI Root").transform;
@@ -60,16 +65,17 @@ public class SpawnController : MonoBehaviour
 		for(byte i = 0; i < quantity; i++)
 		{
 			Transform enemy = GetEnemyFromPool();
-			Debug.Log("spawn");
+
+			int index = Random.Range(0, spawnPoints.Length);
+			Transform spawnPoint = spawnPoints[index];
+
+			enemy.position = spawnPoint.position + new Vector3((Random.Range(0f, 1f) * 2 * minionsSpread) - minionsSpread, 0);
 		}
 	}
 
 	private Transform GetEnemyFromPool()
 	{
 		Transform e;
-
-		int index = Random.Range(0, spawnPoints.Length);
-		Transform spawnPoint = spawnPoints[index];
 
 		Elements element = Element.GetRandomElement ();
 
@@ -85,6 +91,7 @@ public class SpawnController : MonoBehaviour
 				{
 					e.gameObject.SetActive(true);
 					enemiesInGame.Add(e);
+					enemy.Respawn();
 
 					return e;
 				}
@@ -93,13 +100,13 @@ public class SpawnController : MonoBehaviour
 
 		//if reach this line, no enemies in pool matched criteria
 		//so, spawn new enemie
-		e = (Instantiate(enemiesPrefab[(int)element], spawnPoint.position + new Vector3(Random.Range((float)-minionsSpread, (float)+minionsSpread), 0), spawnPoint.rotation) as GameObject).transform;
+
+		e = (Instantiate(enemiesPrefab[(int)element]) as GameObject).transform;
 
 		enemiesInGame.Add(e);
 		enemiesPool.Add(e);
 		return e;
 	}
-
 	#endregion
 
 	#region lifestream
@@ -113,6 +120,7 @@ public class SpawnController : MonoBehaviour
 		{
 			Transform lifestream = GetLifestreamFromPool();
 			lifestream.GetComponent<SpriteRenderer>().sprite = lifestreamSprites[0];
+			lifestream.GetComponent<Lifestream>().value = Lifestreams.Small;
 			lifestream.localScale = new Vector3(0.3f, 0.3f, 0.3f);
 			lifestream.position = pos + new Vector3(Random.Range(-(float)lifestreamSpread, +(float)lifestreamSpread), 0);
 		}
@@ -124,6 +132,7 @@ public class SpawnController : MonoBehaviour
 		{
 			Transform lifestream = GetLifestreamFromPool();
 			lifestream.GetComponent<SpriteRenderer>().sprite = lifestreamSprites[1];
+			lifestream.GetComponent<Lifestream>().value = Lifestreams.Medium;
 			lifestream.localScale = new Vector3(0.4f, 0.4f, 0.4f);
 			lifestream.position = pos + new Vector3(Random.Range(-(float)lifestreamSpread, +(float)lifestreamSpread), 0);
 		}
@@ -135,6 +144,7 @@ public class SpawnController : MonoBehaviour
 		{
 			Transform lifestream = GetLifestreamFromPool();
 			lifestream.GetComponent<SpriteRenderer>().sprite = lifestreamSprites[2];
+			lifestream.GetComponent<Lifestream>().value = Lifestreams.Big;
 			lifestream.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 			lifestream.position = pos + new Vector3(Random.Range(-(float)lifestreamSpread, +(float)lifestreamSpread), 0);
 		}
@@ -142,17 +152,17 @@ public class SpawnController : MonoBehaviour
 
 	private int GetSmallLifestream(int quantity)
 	{
-		return (int)((quantity - (GetMediumLifestream(quantity) * (int)Lifestream.Medium) - (GetBigLifestream(quantity) * (int)Lifestream.Big))/(int)Lifestream.Small);
+		return (int)((quantity - (GetMediumLifestream(quantity) * (int)Lifestreams.Medium) - (GetBigLifestream(quantity) * (int)Lifestreams.Big))/(int)Lifestreams.Small);
 	}
 
 	private int GetMediumLifestream(int quantity)
 	{
-		return (int)((quantity - (GetBigLifestream(quantity) * (int)Lifestream.Big))/(int)Lifestream.Medium);
+		return (int)((quantity - (GetBigLifestream(quantity) * (int)Lifestreams.Big))/(int)Lifestreams.Medium);
 	}
 
 	private int GetBigLifestream(int quantity)
 	{
-		return (int)(Mathf.Floor(quantity / (int)Lifestream.Big));
+		return (int)(Mathf.Floor(quantity / (int)Lifestreams.Big));
 	}
 
 	private Transform GetLifestreamFromPool()
@@ -165,6 +175,7 @@ public class SpawnController : MonoBehaviour
 			{
 				lifestream = lifestreamsPool[i] as Transform;
 				lifestream.gameObject.SetActive(true);
+				break;
 			}
 		}
 
@@ -218,6 +229,43 @@ public class SpawnController : MonoBehaviour
 		}
 
 		return d;
+	}
+	#endregion
+
+	#region ink stain
+	public void SpawnInkStain(Vector3 position, Vector3 scale)
+	{
+		Transform ink = GetInkStainFromPool();
+		ink.position = position;
+		
+		ink.localScale = scale;
+	}
+
+	private Transform GetInkStainFromPool()
+	{
+		Transform ink = null;
+
+		for(byte i = 0; i < inkStainPool.Count; i++)
+		{
+			if(!(inkStainPool[i] as Transform).gameObject.activeInHierarchy)
+			{
+				ink = inkStainPool[i] as Transform;
+				ink.gameObject.SetActive(true);
+				break;
+			}
+		}
+		
+		if(ink == null)
+		{
+			GameObject go = Instantiate(inkStainPrefab) as GameObject;
+			
+			ink = go.transform;
+			
+			inkStainPool.Add(ink);
+		}
+		
+		
+		return ink;
 	}
 	#endregion
 }
