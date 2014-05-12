@@ -23,6 +23,10 @@ public class GameController : MonoBehaviour
 	public float lvl3SkillCost = 50;
 	public float lvl4SkillCost = 120;
 
+	public float initialMonsters = 1f;
+	public float monstersPerWave = 1.2f;
+	public int maxMonsters = 10;
+
 	public GameObject FingerGesturePrefab;
 
 	private static GameController instance;
@@ -50,7 +54,7 @@ public class GameController : MonoBehaviour
 	
 	private byte GetWaveMonstersNumber()
 	{
-		return (byte)Mathf.Min(10, wave + Mathf.Floor(wave * 0.4f));
+		return (byte)Mathf.Min(maxMonsters, initialMonsters + Mathf.Floor((wave - 1) * monstersPerWave));
 	}
 	
 	public byte GetCoinDrop()

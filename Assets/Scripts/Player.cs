@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
 	IEnumerator WaitForGameController()
 	{
 		while(GameController.Instance == null) yield return null;
-		
+
 		mana = GameController.Instance.maxMana;
 	}
 
