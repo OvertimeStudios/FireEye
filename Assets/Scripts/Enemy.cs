@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
 	public Elements element;
 	public float vel;
 	public float velOffScreen;
+	public float velMultiplier = 1f;
 
 	[HideInInspector]
 	public bool knockbacking;
@@ -63,13 +64,17 @@ public class Enemy : MonoBehaviour
 		}
 
 		if(IsOffscreen())
-			myRigidbody.AddForce (velOffScreenV2 * dir);
+			myRigidbody.AddForce (velOffScreenV2 * dir * velMultiplier);
 		else
-			myRigidbody.AddForce (velV2 * dir);
+			myRigidbody.AddForce (velV2 * dir * velMultiplier);
 	}
 
 	public void Respawn()
 	{
+		velMultiplier = 1f;
+		velV2 = new Vector2 (vel, 0);
+		velOffScreenV2 = new Vector2 (velOffScreen, 0);
+
 		life = maxLife;
 		RecalculateDirection ();
 	}
@@ -116,6 +121,17 @@ public class Enemy : MonoBehaviour
 			return true;
 
 		return false;
+	}
+
+	public void ChangeVelocity(float newVel)
+	{
+		velV2 *= newVel;
+		velOffScreenV2 *= newVel;
+	}
+
+	public void ChangeVelocityMultiplier(float factor)
+	{
+		velMultiplier = factor;
 	}
 
 	private void Dead()

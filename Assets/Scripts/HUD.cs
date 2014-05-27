@@ -63,22 +63,32 @@ public class HUD : MonoBehaviour
 		if(Player.mana > 0)
 		{
 			Player.mana -= Time.deltaTime * GameController.Instance.manaConsumedPerSecond;
-
-			if(Player.mana <= 0)
-			{
-				if(GameController.life > 0)
-				{
-					Player.mana += GameController.Instance.maxMana * GameController.Instance.manaRecoveredPerLife;
-					LoseLife();
-				}
-				else
-				{
-					//GameOver();
-				}
-			}
-
-			manaFill.fillAmount = Player.mana / GameController.Instance.maxMana;
 		}
+
+		if(Player.mana < 0)
+		{
+			if(GameController.life > 0)
+			{
+				Player.mana += GameController.Instance.maxMana * GameController.Instance.manaRecoveredPerLife;
+				LoseLife();
+			}
+			else
+			{
+				GameOver();
+			}
+		}
+		
+		manaFill.fillAmount = Player.mana / GameController.Instance.maxMana;
+	}
+
+	private void GameOver()
+	{
+		Global.lifestream += GameController.Instance.lifestreamCollected;
+
+		PlayerPrefs.SetInt ("lifestream", Global.lifestream);
+		PlayerPrefs.Save ();
+
+		Application.LoadLevel ("Menus");
 	}
 
 	public void LoseLife()

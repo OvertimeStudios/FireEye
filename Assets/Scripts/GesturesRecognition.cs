@@ -97,6 +97,6 @@ public class GesturesRecognition : MonoBehaviour
 	void OnTap( TapGesture gesture)
 	{
 		if(gesture.Selection != null && gesture.Selection.layer == enemyLayer)
-			Player.Instance.Teleport (gesture.Selection.transform.position);
+			Player.Instance.Teleport (gesture.Selection);
 	}
 }

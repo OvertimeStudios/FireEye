@@ -60,24 +60,55 @@ public class SpawnController : MonoBehaviour
 	}
 
 	#region enemies
-	public void SpawnEnemies(byte quantity)
+	public void SpawnEnemies(Wave wave)
 	{
+		byte quantity = 0;
+		float rnd = Random.Range (0f, 1f);
+		float quantityPercent = 0f;
+
+		for(int i = 0; i < wave.monsterWaves.Length; i++)
+		{
+			MonsterWave mw = wave.monsterWaves[i];
+
+			quantityPercent += mw.percent;
+			if(rnd <= quantityPercent)
+			{
+				quantity = mw.quantity;
+				break;
+			}
+		}
+
+		Debug.Log ("Quantity: " + quantity);
+
 		for(byte i = 0; i < quantity; i++)
 		{
-			Transform enemy = GetEnemyFromPool();
+			Transform enemy = GetEnemyFromPool(wave.GetRandomElement());
+
+			Debug.Log("Spawning " + enemy.GetComponent<Enemy>().element + " monster");
 
 			int index = Random.Range(0, spawnPoints.Length);
 			Transform spawnPoint = spawnPoints[index];
 
 			enemy.position = spawnPoint.position + new Vector3((Random.Range(0f, 1f) * 2 * minionsSpread) - minionsSpread, 0);
+
+			rnd = Random.Range(0f, 1f);
+
+			enemy.GetComponent<Enemy>().ChangeVelocity(wave.elements[i].velocity);
+
+			if(rnd < wave.elements[i].chanceToIncreaseVelocity)
+			{
+				enemy.GetComponent<Enemy>().ChangeVelocityMultiplier(wave.elements[i].velocity + 0.1f);
+			}
 		}
+
+		Debug.Log ("----- End Spawn Wave ----");
 	}
 
-	private Transform GetEnemyFromPool()
+	private Transform GetEnemyFromPool(Elements elem)
 	{
 		Transform e;
 
-		Elements element = Element.GetRandomElement ();
+		Elements element = elem;
 
 		for(byte i = 0; i < enemiesPool.Count; i++)
 		{
@@ -99,7 +130,7 @@ public class SpawnController : MonoBehaviour
 		}
 
 		//if reach this line, no enemies in pool matched criteria
-		//so, spawn new enemie
+		//so, spawn new enemy
 
 		e = (Instantiate(enemiesPrefab[(int)element]) as GameObject).transform;
 

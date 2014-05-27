@@ -5,4 +5,6 @@ public class Global : MonoBehaviour
 {
 	public static Texture lineTexture;
 	public static Texture particleTexture;
+
+	public static int lifestream;
 }
