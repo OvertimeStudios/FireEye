@@ -8,8 +8,18 @@ public class SoundController : MonoBehaviour
 		Game
 	}
 
+	public enum SoundFX
+	{
+		Urith,
+		Inna,
+		Damek,
+		Raiden
+	}
+
 	public AudioClip[] notes;
 	private int currentNote;
+
+	public AudioClip[] spirits;
 
 	public AudioClip gameMusic;
 
@@ -53,6 +63,20 @@ public class SoundController : MonoBehaviour
 
 		if(currentNote > notes.Length - 1)
 			currentNote = notes.Length - 1;
+	}
+
+	public void PlaySound(SoundFX soundFX)
+	{
+		if(soundFX == SoundFX.Urith)
+			audio.PlayOneShot(spirits[0]);
+		else if(soundFX == SoundFX.Inna)
+			audio.PlayOneShot(spirits[1]);
+		else if(soundFX == SoundFX.Damek)
+			audio.PlayOneShot(spirits[2]);
+		else if(soundFX == SoundFX.Raiden)
+			audio.PlayOneShot(spirits[3]);
+
+
 	}
 
 	public IEnumerator ResetNote(float waitTime)

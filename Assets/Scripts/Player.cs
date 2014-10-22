@@ -10,11 +10,14 @@ public class Player : MonoBehaviour
 	public static float mana;
 
 	private Transform myTransform;
+	private SpriteRenderer spriteRenderer;
 
 	public Elements element;
 
 	private int minX;
 	private int maxX;
+
+	public Sprite[] animations;
 
 	private static Player instance;
 	public static Player Instance
@@ -29,6 +32,8 @@ public class Player : MonoBehaviour
 		element = Elements.Neutral;
 
 		CameraFollow cameraFollow = GameObject.Find ("Main Camera").GetComponent<CameraFollow> ();
+
+		spriteRenderer = transform.FindChild ("Body").GetComponent<SpriteRenderer> ();
 
 		minX = (int)cameraFollow.minXAndY.x - 7;
 		maxX = (int)cameraFollow.maxXAndY.x + 7;
@@ -56,12 +61,42 @@ public class Player : MonoBehaviour
 		mana -= GetSkillCost(element);
 
 		HUD.Instance.ShowSkillTime (element);
+
+		SoundController.SoundFX sFX;
+
+		if(element == Elements.Fire)
+			sFX = SoundController.SoundFX.Urith;
+		else if(element == Elements.Water)
+			sFX = SoundController.SoundFX.Inna;
+		else if(element == Elements.Earth)
+			sFX = SoundController.SoundFX.Damek;
+		else
+			sFX = SoundController.SoundFX.Raiden;
+
+		SoundController.Instance.PlaySound (sFX);
+
+		//animation
+		spriteRenderer.sprite = animations [(int)element];
+
+		StartCoroutine (Zoom ());
+	}
+
+	private IEnumerator Zoom()
+	{
+		CameraZoom.Instance.ZoomIn ();
+
+		yield return new WaitForSeconds (1.5f);
+
+		CameraZoom.Instance.ZoomOut ();
 	}
 
 	//calles when time is over (at HUD.cs)
 	public void BackToNeutral()
 	{
 		element = Elements.Neutral;
+
+		//animation
+		spriteRenderer.sprite = animations [(int)element];
 	}
 
 	//called when user tap on screen and on an Enemy (at GesturesRecognition.OnTap)

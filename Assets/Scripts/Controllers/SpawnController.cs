@@ -82,7 +82,9 @@ public class SpawnController : MonoBehaviour
 
 		for(byte i = 0; i < quantity; i++)
 		{
-			Transform enemy = GetEnemyFromPool(wave.GetRandomElement());
+			Elements rndElement = wave.GetRandomElement();
+			Transform enemy = GetEnemyFromPool(rndElement);
+			int eIndex = wave.GetElementIndex(rndElement);
 
 			Debug.Log("Spawning " + enemy.GetComponent<Enemy>().element + " monster");
 
@@ -91,13 +93,13 @@ public class SpawnController : MonoBehaviour
 
 			enemy.position = spawnPoint.position + new Vector3((Random.Range(0f, 1f) * 2 * minionsSpread) - minionsSpread, 0);
 
+			enemy.GetComponent<Enemy>().ChangeVelocity(wave.elements[eIndex].velocity);
+
 			rnd = Random.Range(0f, 1f);
 
-			enemy.GetComponent<Enemy>().ChangeVelocity(wave.elements[i].velocity);
-
-			if(rnd < wave.elements[i].chanceToIncreaseVelocity)
+			if(rnd < wave.elements[eIndex].chanceToIncreaseVelocity)
 			{
-				enemy.GetComponent<Enemy>().ChangeVelocityMultiplier(wave.elements[i].velocity + 0.1f);
+				enemy.GetComponent<Enemy>().ChangeVelocityMultiplier(wave.elements[eIndex].newVelocity);
 			}
 		}
 

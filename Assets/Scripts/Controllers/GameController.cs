@@ -196,6 +196,22 @@ public class Wave
 
 		return e;
 	}
+
+	public int GetElementIndex(Elements e)
+	{
+		int index = -1;
+
+		for(byte i = 0; i < elements.Length; i++)
+		{
+			if(elements[i].element == e)
+			{
+				index = i;
+				break;
+			}
+		}
+
+		return index;
+	}
 }
 
 [System.Serializable]
@@ -236,6 +252,7 @@ public class ElementsMonsters
 	public Elements element;
 	public float velocity;
 	public float chanceToIncreaseVelocity;
+	public float newVelocity;
 
 	public ElementsMonsters()
 	{
@@ -247,6 +264,7 @@ public class ElementsMonsters
 		element = Element.GetRandomElement();
 		velocity = 1f;
 		chanceToIncreaseVelocity = 0;
+		newVelocity = 1f;
 	}
 
 	public void Init(Elements e)
@@ -254,6 +272,7 @@ public class ElementsMonsters
 		element = e;
 		velocity = 1f;
 		chanceToIncreaseVelocity = 0;
+		newVelocity = 1f;
 	}
 
 	public void Init(Elements e, float v, float c)
@@ -261,6 +280,7 @@ public class ElementsMonsters
 		element = e;
 		velocity = v;
 		chanceToIncreaseVelocity = c;
+		newVelocity = 1f;
 	}
 
 	public void Init(float v, float c)
@@ -268,5 +288,14 @@ public class ElementsMonsters
 		element = Element.GetRandomElement();
 		velocity = v;
 		chanceToIncreaseVelocity = c;
+		newVelocity = 1f;
+	}
+
+	public void Init(float v, float c, float nv)
+	{
+		element = Element.GetRandomElement();
+		velocity = v;
+		chanceToIncreaseVelocity = c;
+		newVelocity = nv;
 	}
 }
